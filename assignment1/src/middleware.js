@@ -12,13 +12,14 @@ const validatePaper = (paper) => {
   // Required fields validation:
   // - title: non-empty string
   // - authors: non-empty string
-  // - publication_type: must be either 'conference' or 'journal'
-  // - publication_name: non-empty string
+  // - published_in: non-empty string
   // - year: integer greater than 1900
   //
   // Error message format should match the handout, for example:
   // - "Title is required"
-  // - "Publication type must be either 'conference' or 'journal'"
+  // - "Author is required"
+  // - "Published venue is required"
+  // - "Published year is required"
   // - "Valid year after 1900 is required"
   const errors = [];
 
@@ -36,18 +37,12 @@ const errorHandler = (err, req, res, next) => {
   //   "messages": ["Title is required", "Valid year after 1900 is required"]
   // }
   //
-  // 2. Duplicate DOI Error (400):
-  // {
-  //   "error": "Constraint Error",
-  //   "message": "A paper with this DOI already exists"
-  // }
-  //
-  // 3. Not Found Error (404):
+  // 2. Not Found Error (404):
   // {
   //   "error": "Paper not found"
   // }
   //
-  // 4. Invalid Query Parameter (400):
+  // 3. Invalid Query Parameter (400):
   // {
   //   "error": "Validation Error",
   //   "message": "Invalid query parameter format"
@@ -55,7 +50,6 @@ const errorHandler = (err, req, res, next) => {
   //
   // Remember to:
   // - Log errors for debugging (console.error)
-  // - Check err.code === "SQLITE_CONSTRAINT" for duplicate DOI
   // - Send appropriate status codes (400, 404)
   console.error(err);
 };

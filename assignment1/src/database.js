@@ -38,13 +38,12 @@ const dbOperations = {
 
   getAllPapers: async (filters = {}) => {
     // Your implementation here
-    // Remember to handle filters (year, publication_type, publication_name)
+    // Remember to handle filters (year, published_in)
     // Hint:
     // 1. Start with a basic SELECT query
     // 2. Add WHERE clauses based on filters:
     //    - If filters.year exists, add "year = ?"
-    //    - If filters.publication_type exists, add "publication_type = ?"
-    //    - If filters.publication_name exists, add "publication_name = ?"
+    //    - If filters.published_in exists, add "published_in LIKE ?"
     // 3. Use an array to store query parameters
     // Example structure:
     // let query = "SELECT * FROM papers";

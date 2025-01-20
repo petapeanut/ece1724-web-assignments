@@ -8,8 +8,7 @@ router.get("/papers", async (req, res, next) => {
   try {
     const filters = {
       year: req.query.year ? parseInt(req.query.year) : null,
-      publication_type: req.query.publication_type,
-      publication_name: req.query.publication_name,
+      published_in: req.query.published_in,
       limit: req.query.limit ? parseInt(req.query.limit) : 10,
       offset: req.query.offset ? parseInt(req.query.offset) : 0,
     };
