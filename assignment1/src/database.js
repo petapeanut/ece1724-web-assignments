@@ -5,10 +5,27 @@ const db = new sqlite3.Database("./paper_management.db", (err) => {
     console.error("Error connecting to database:", err);
   } else {
     console.log("Connected to SQLite database");
+
+    db.run(
+      `CREATE TABLE IF NOT EXISTS papers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        authors TEXT NOT NULL,
+        published_in TEXT NOT NULL,
+        year INTEGER NOT NULL CHECK (year > 1900),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )`,
+      (err) => {
+        if (err) {
+          console.error("Error creating papers table:", err);
+        } else {
+          console.log("Papers table ready");
+        }
+      }
+    );
   }
 });
-
-// TODO: Create a table named papers with the schema specified in the handout
 
 // TODO: Implement these database operations
 const dbOperations = {
