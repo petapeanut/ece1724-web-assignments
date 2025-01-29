@@ -71,27 +71,27 @@ describe("Paper Management API Tests", () => {
     });
   });
 
-  // // GET /api/papers
-  // describe("GET /api/papers", () => {
-  //   it("should retrieve a list of papers", async () => {
-  //     const res = await request(app).get("/api/papers");
+  // GET /api/papers
+  describe("GET /api/papers", () => {
+    it("should retrieve a list of papers", async () => {
+      const res = await request(app).get("/api/papers");
 
-  //     expect(res.status).toBe(200);
-  //     expect(Array.isArray(res.body)).toBeTruthy();
-  //   });
+      expect(res.status).toBe(200);
+      expect(Array.isArray(res.body)).toBeTruthy();
+    });
 
-  //   it("should apply filters correctly", async () => {
-  //     const res = await request(app).get(
-  //       "/api/papers?year=2024&published_in=ICSE"
-  //     );
+    it("should apply filters correctly", async () => {
+      const res = await request(app).get(
+        "/api/papers?year=2024&published_in=ICSE"
+      );
 
-  //     expect(res.status).toBe(200);
-  //     res.body.forEach((paper) => {
-  //       expect(paper.year).toBe(2024);
-  //       expect(paper.published_in).toMatch(/ICSE/i);
-  //     });
-  //   });
-  // });
+      expect(res.status).toBe(200);
+      res.body.forEach((paper) => {
+        expect(paper.year).toBe(2024);
+        expect(paper.published_in).toMatch(/ICSE/i);
+      });
+    });
+  });
 
   // // GET /api/papers/:id
   // describe("GET /api/papers/:id", () => {

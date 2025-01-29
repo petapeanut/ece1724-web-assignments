@@ -30,28 +30,6 @@ const db = new sqlite3.Database("./paper_management.db", (err) => {
 // TODO: Implement these database operations
 const dbOperations = {
   createPaper: async (paper) => {
-    // Your implementation here
-    // Hint: You need to:
-    // 1. Create and execute an INSERT SQL statement
-    // 2. Use await to handle the promise
-    // 3. Return the created paper with its ID
-    // Example structure:
-    // try {
-    //   const result = await new Promise((resolve, reject) => {
-    //     db.run(
-    //       "INSERT INTO ... VALUES ...",
-    //       [...values],
-    //       function(err) {
-    //         if (err) reject(err);
-    //         else resolve(this.lastID);
-    //       }
-    //     );
-    //   });
-    //   return { id: result, ...paper };
-    // } catch (error) {
-    //   throw error;
-    // }
-
     try {
       const result = await new Promise((resolve, reject) => {
         db.run(
@@ -99,6 +77,34 @@ const dbOperations = {
     //     else resolve(rows);
     //   });
     // });
+    try {
+      let query = "SELECT * FROM papers WHERE 1=1";
+      const params = [];
+
+      if (filters.year) {
+        query += " AND year = ?";
+        params.push(filters.year);
+      }
+
+      if (filters.published_in) {
+        // Force case-insensitive partial match
+        query += " AND LOWER(published_in) LIKE LOWER(?)";
+        params.push(`%${filters.published_in}%`);
+      }
+
+      // Pagination
+      query += " LIMIT ? OFFSET ?";
+      params.push(filters.limit, filters.offset);
+
+      return await new Promise((resolve, reject) => {
+        db.all(query, params, (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        });
+      });
+    } catch (error) {
+      throw error;
+    }
   },
 
   getPaperById: async (id) => {

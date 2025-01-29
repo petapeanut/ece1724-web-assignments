@@ -14,6 +14,29 @@ router.get("/papers", async (req, res, next) => {
     };
 
     // Your implementation here
+    // 1. Input validation
+    const errors = [];
+
+    if (filters.year !== null && (isNaN(filters.year) || filters.year <= 1900)) {
+      errors.push("Year must be an integer greater than 1900");
+    }
+
+    // Validate limit (default: 10, max: 100)
+    if (filters.limit !== null && (isNaN(filters.limit) || filters.limit <= 0 || filters.limit > 100)) {
+      errors.push("Limit must be a positive integer (max: 100)");
+    }
+
+    // Validate offset (default: 0)
+    if (filters.offset !== null && (isNaN(filters.offset) || filters.offset < 0)) {
+      errors.push("Offset must be a non-negative integer");
+    }
+
+    if (errors.length > 0) {
+      return res.status(400).json({ error: "Validation Error", messages: errors });
+    }
+
+    const papers = await db.getAllPapers(filters);
+    res.status(200).json(papers);
   } catch (error) {
     next(error);
   }
