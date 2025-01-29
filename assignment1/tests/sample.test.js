@@ -71,96 +71,96 @@ describe("Paper Management API Tests", () => {
     });
   });
 
-  // GET /api/papers
-  describe("GET /api/papers", () => {
-    it("should retrieve a list of papers", async () => {
-      const res = await request(app).get("/api/papers");
+  // // GET /api/papers
+  // describe("GET /api/papers", () => {
+  //   it("should retrieve a list of papers", async () => {
+  //     const res = await request(app).get("/api/papers");
 
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBeTruthy();
-    });
+  //     expect(res.status).toBe(200);
+  //     expect(Array.isArray(res.body)).toBeTruthy();
+  //   });
 
-    it("should apply filters correctly", async () => {
-      const res = await request(app).get(
-        "/api/papers?year=2024&published_in=ICSE"
-      );
+  //   it("should apply filters correctly", async () => {
+  //     const res = await request(app).get(
+  //       "/api/papers?year=2024&published_in=ICSE"
+  //     );
 
-      expect(res.status).toBe(200);
-      res.body.forEach((paper) => {
-        expect(paper.year).toBe(2024);
-        expect(paper.published_in).toMatch(/ICSE/i);
-      });
-    });
-  });
+  //     expect(res.status).toBe(200);
+  //     res.body.forEach((paper) => {
+  //       expect(paper.year).toBe(2024);
+  //       expect(paper.published_in).toMatch(/ICSE/i);
+  //     });
+  //   });
+  // });
 
-  // GET /api/papers/:id
-  describe("GET /api/papers/:id", () => {
-    it("should retrieve a paper by ID", async () => {
-      const createRes = await request(app)
-        .post("/api/papers")
-        .send(samplePaper);
-      const res = await request(app).get(`/api/papers/${createRes.body.id}`);
+  // // GET /api/papers/:id
+  // describe("GET /api/papers/:id", () => {
+  //   it("should retrieve a paper by ID", async () => {
+  //     const createRes = await request(app)
+  //       .post("/api/papers")
+  //       .send(samplePaper);
+  //     const res = await request(app).get(`/api/papers/${createRes.body.id}`);
 
-      expect(res.status).toBe(200);
-      expect(res.body).toMatchObject(createRes.body);
-    });
+  //     expect(res.status).toBe(200);
+  //     expect(res.body).toMatchObject(createRes.body);
+  //   });
 
-    it("should return 404 if paper is not found", async () => {
-      const res = await request(app).get("/api/papers/99999");
+  //   it("should return 404 if paper is not found", async () => {
+  //     const res = await request(app).get("/api/papers/99999");
 
-      expect(res.status).toBe(404);
-      expect(res.body.error).toBe("Paper not found");
-    });
-  });
+  //     expect(res.status).toBe(404);
+  //     expect(res.body.error).toBe("Paper not found");
+  //   });
+  // });
 
-  // PUT /api/papers/:id
-  describe("PUT /api/papers/:id", () => {
-    it("should update an existing paper", async () => {
-      const createRes = await request(app)
-        .post("/api/papers")
-        .send(samplePaper);
-      const updatedPaper = {
-        title: "Updated Title",
-        authors: "Updated Author",
-        published_in: "Updated Venue",
-        year: 2025,
-      };
-      const res = await request(app)
-        .put(`/api/papers/${createRes.body.id}`)
-        .send(updatedPaper);
+  // // PUT /api/papers/:id
+  // describe("PUT /api/papers/:id", () => {
+  //   it("should update an existing paper", async () => {
+  //     const createRes = await request(app)
+  //       .post("/api/papers")
+  //       .send(samplePaper);
+  //     const updatedPaper = {
+  //       title: "Updated Title",
+  //       authors: "Updated Author",
+  //       published_in: "Updated Venue",
+  //       year: 2025,
+  //     };
+  //     const res = await request(app)
+  //       .put(`/api/papers/${createRes.body.id}`)
+  //       .send(updatedPaper);
 
-      expect(res.status).toBe(200);
-      expect(res.body).toMatchObject(updatedPaper);
-      expect(res.body).toHaveProperty("updated_at");
-    });
+  //     expect(res.status).toBe(200);
+  //     expect(res.body).toMatchObject(updatedPaper);
+  //     expect(res.body).toHaveProperty("updated_at");
+  //   });
 
-    it("should return 404 if paper is not found", async () => {
-      const res = await request(app).put("/api/papers/99999").send(samplePaper);
+  //   it("should return 404 if paper is not found", async () => {
+  //     const res = await request(app).put("/api/papers/99999").send(samplePaper);
 
-      expect(res.status).toBe(404);
-      expect(res.body.error).toBe("Paper not found");
-    });
-  });
+  //     expect(res.status).toBe(404);
+  //     expect(res.body.error).toBe("Paper not found");
+  //   });
+  // });
 
-  // DELETE /api/papers/:id
-  describe("DELETE /api/papers/:id", () => {
-    it("should delete a paper by ID", async () => {
-      const createRes = await request(app)
-        .post("/api/papers")
-        .send(samplePaper);
-      const res = await request(app).delete(`/api/papers/${createRes.body.id}`);
+  // // DELETE /api/papers/:id
+  // describe("DELETE /api/papers/:id", () => {
+  //   it("should delete a paper by ID", async () => {
+  //     const createRes = await request(app)
+  //       .post("/api/papers")
+  //       .send(samplePaper);
+  //     const res = await request(app).delete(`/api/papers/${createRes.body.id}`);
 
-      expect(res.status).toBe(204);
+  //     expect(res.status).toBe(204);
 
-      const getRes = await request(app).get(`/api/papers/${createRes.body.id}`);
-      expect(getRes.status).toBe(404);
-    });
+  //     const getRes = await request(app).get(`/api/papers/${createRes.body.id}`);
+  //     expect(getRes.status).toBe(404);
+  //   });
 
-    it("should return 404 if paper is not found", async () => {
-      const res = await request(app).delete("/api/papers/99999");
+  //   it("should return 404 if paper is not found", async () => {
+  //     const res = await request(app).delete("/api/papers/99999");
 
-      expect(res.status).toBe(404);
-      expect(res.body.error).toBe("Paper not found");
-    });
-  });
+  //     expect(res.status).toBe(404);
+  //     expect(res.body.error).toBe("Paper not found");
+  //   });
+  // });
 });

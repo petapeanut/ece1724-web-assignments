@@ -51,6 +51,29 @@ const dbOperations = {
     // } catch (error) {
     //   throw error;
     // }
+
+    try {
+      const result = await new Promise((resolve, reject) => {
+        db.run(
+          `INSERT INTO papers (title, authors, published_in, year) VALUES (?, ?, ?, ?)`,
+          [paper.title, paper.authors, paper.published_in, paper.year],
+          function(err) {
+            if (err) reject(err);
+            else resolve(this.lastID);
+          }
+        );
+      });
+
+      // Fetch the newly created paper to include timestamps
+      return await new Promise((resolve, reject) => {
+        db.get("SELECT * FROM papers WHERE id = ?", [result], (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        });
+      });
+    } catch (error) {
+      throw error;
+    }
   },
 
   getAllPapers: async (filters = {}) => {

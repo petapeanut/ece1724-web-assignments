@@ -23,6 +23,31 @@ const validatePaper = (paper) => {
   // - "Valid year after 1900 is required"
   const errors = [];
 
+  if (!paper.title || typeof paper.title !== "string" || paper.title.trim() === "") {
+    errors.push("Title is required");
+  }
+
+  if (!paper.authors || typeof paper.authors !== "string" || paper.authors.trim() === "") {
+    errors.push("Authors are required");
+  } else {
+    // Split the string by commas and check if each name is valid
+    const authorsList = paper.authors.split(",").map(author => author.trim());
+
+    if (authorsList.length === 0 || authorsList.some(author => author === "")) {
+      errors.push("Authors are required");
+    }
+  }
+
+  if (!paper.published_in || typeof paper.published_in !== "string" || paper.published_in.trim() === "") {
+    errors.push("Published venue is required");
+  }
+
+  if (!paper.year || typeof paper.year !== "number") {
+    errors.push("Published year is required");
+  } else if (paper.year <= 1900) {
+    errors.push("Valid year after 1900 is required");
+  }
+
   return errors;
 };
 

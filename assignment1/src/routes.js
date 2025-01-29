@@ -39,6 +39,8 @@ router.post("/papers", async (req, res, next) => {
     }
 
     // Your implementation here
+    const newPaper = await db.createPaper(req.body);
+    res.status(201).json(newPaper);
   } catch (error) {
     next(error);
   }
