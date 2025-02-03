@@ -1,3 +1,5 @@
+const { promises } = require("supertest/lib/test");
+
 const sqlite3 = require("sqlite3").verbose();
 
 const db = new sqlite3.Database("./paper_management.db", (err) => {
@@ -44,6 +46,7 @@ const dbOperations = {
 
       // Fetch the newly created paper to include timestamps
       return await new Promise((resolve, reject) => {
+
         db.get("SELECT * FROM papers WHERE id = ?", [result], (err, row) => {
           if (err) reject(err);
           else resolve(row);
@@ -76,11 +79,13 @@ const dbOperations = {
       params.push(filters.limit, filters.offset);
 
       const result = await new Promise((resolve, reject) => {
+
         db.all(query, params, (err, rows) => {
           if (err) reject(err);
           else resolve(rows);
         });
       });
+
       return result;
     } catch (error) {
       throw error;
@@ -93,8 +98,10 @@ const dbOperations = {
     try {
       const result =  await new Promise((resolve, reject) => {
         db.get("SELECT * FROM papers WHERE id = ?", [id], (err, row) => {
-          if (err) reject(err);
-          else resolve(row);
+          if (err)
+            reject(err);
+          else
+            resolve(row);
         });
       });
       return result;
@@ -105,6 +112,35 @@ const dbOperations = {
 
   updatePaper: async (id, paper) => {
     // Your implementation here
+    try {
+      await new Promise((resolve, reject) => {
+        db.run(
+          `UPDATE papers
+            SET title = ?, authors = ?, published_in = ?, year = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?;`,
+          [paper.title, paper.authors, paper.published_in, paper.year, id],
+          function (err) {
+            if (err)
+              reject(err);
+            else
+              resolve(this.changes);
+          }
+        );
+      });
+
+      // Get the updated paper
+      const result =  await new Promise((resolve, reject) => {
+        db.get("SELECT * FROM papers WHERE id = ?", [id], (err, row) => {
+          if (err)
+            reject(err);
+          else
+            resolve(row);
+        });
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
   },
 
   deletePaper: async (id) => {

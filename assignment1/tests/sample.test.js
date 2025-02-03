@@ -113,34 +113,34 @@ describe("Paper Management API Tests", () => {
     });
   });
 
-  // // PUT /api/papers/:id
-  // describe("PUT /api/papers/:id", () => {
-  //   it("should update an existing paper", async () => {
-  //     const createRes = await request(app)
-  //       .post("/api/papers")
-  //       .send(samplePaper);
-  //     const updatedPaper = {
-  //       title: "Updated Title",
-  //       authors: "Updated Author",
-  //       published_in: "Updated Venue",
-  //       year: 2025,
-  //     };
-  //     const res = await request(app)
-  //       .put(`/api/papers/${createRes.body.id}`)
-  //       .send(updatedPaper);
+  // PUT /api/papers/:id
+  describe("PUT /api/papers/:id", () => {
+    it("should update an existing paper", async () => {
+      const createRes = await request(app)
+        .post("/api/papers")
+        .send(samplePaper);
+      const updatedPaper = {
+        title: "Updated Title",
+        authors: "Updated Author",
+        published_in: "Updated Venue",
+        year: 2025,
+      };
+      const res = await request(app)
+        .put(`/api/papers/${createRes.body.id}`)
+        .send(updatedPaper);
 
-  //     expect(res.status).toBe(200);
-  //     expect(res.body).toMatchObject(updatedPaper);
-  //     expect(res.body).toHaveProperty("updated_at");
-  //   });
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(updatedPaper);
+      expect(res.body).toHaveProperty("updated_at");
+    });
 
-  //   it("should return 404 if paper is not found", async () => {
-  //     const res = await request(app).put("/api/papers/99999").send(samplePaper);
+    it("should return 404 if paper is not found", async () => {
+      const res = await request(app).put("/api/papers/99999").send(samplePaper);
 
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.error).toBe("Paper not found");
-  //   });
-  // });
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe("Paper not found");
+    });
+  });
 
   // // DELETE /api/papers/:id
   // describe("DELETE /api/papers/:id", () => {

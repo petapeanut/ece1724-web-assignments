@@ -90,6 +90,17 @@ router.put("/papers/:id", async (req, res, next) => {
     }
 
     // Your implementation here
+    validateId(req, res, async () => {
+      const oldPaper = await db.getPaperById(req.id);
+
+      if (!oldPaper) {
+        return res.status(404).json({ error: "Paper not found" });
+      }
+
+      const updatedPaper = await db.updatePaper(req.id, req.body);
+      res.status(200).json(updatedPaper);
+    });
+
   } catch (error) {
     next(error);
   }
