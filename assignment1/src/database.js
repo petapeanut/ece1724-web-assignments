@@ -90,6 +90,17 @@ const dbOperations = {
   getPaperById: async (id) => {
     // Your implementation here
     // Hint: Use await with a new Promise that wraps the db.get() operation
+    try {
+      const result =  await new Promise((resolve, reject) => {
+        db.get("SELECT * FROM papers WHERE id = ?", [id], (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        });
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
   },
 
   updatePaper: async (id, paper) => {

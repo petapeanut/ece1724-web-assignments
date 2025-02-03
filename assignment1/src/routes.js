@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("./database");
-const { validatePaper } = require("./middleware");
+const { validatePaper, validateId } = require("./middleware");
 
 // GET /api/papers
 router.get("/papers", async (req, res, next) => {
@@ -46,6 +46,16 @@ router.get("/papers", async (req, res, next) => {
 router.get("/papers/:id", async (req, res, next) => {
   try {
     // Your implementation here
+    validateId(req, res, async () => {
+      const papers = await db.getPaperById(req.id);
+
+      if (!papers) {
+        return res.status(404).json({ error: "Paper not found" });
+      }
+
+      // Return the paper if found
+      res.status(200).json(papers);
+    });
   } catch (error) {
     next(error);
   }

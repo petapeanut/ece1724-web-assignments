@@ -82,16 +82,18 @@ const errorHandler = (err, req, res, next) => {
 // Validate ID parameter middleware
 const validateId = (req, res, next) => {
   // TODO: Implement ID validation
-  //
-  // If ID is invalid, return:
-  // Status: 400
-  // {
-  //   "error": "Validation Error",
-  //   "message": "Invalid ID format"
-  // }
-  //
-  // If valid, call next()
+
+  // Parse the id from the URL and ensure it is in base 10 (decimal)
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id) || id <= 0)
+    return res.status(400).json({ error: "Validation Error", message: "Invalid ID format" });
+
+  req.id = id;
+  next();
 };
+
+
 
 module.exports = {
   requestLogger,

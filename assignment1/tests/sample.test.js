@@ -93,25 +93,25 @@ describe("Paper Management API Tests", () => {
     });
   });
 
-  // // GET /api/papers/:id
-  // describe("GET /api/papers/:id", () => {
-  //   it("should retrieve a paper by ID", async () => {
-  //     const createRes = await request(app)
-  //       .post("/api/papers")
-  //       .send(samplePaper);
-  //     const res = await request(app).get(`/api/papers/${createRes.body.id}`);
+  // GET /api/papers/:id
+  describe("GET /api/papers/:id", () => {
+    it("should retrieve a paper by ID", async () => {
+      const createRes = await request(app)
+        .post("/api/papers")
+        .send(samplePaper);
+      const res = await request(app).get(`/api/papers/${createRes.body.id}`);
 
-  //     expect(res.status).toBe(200);
-  //     expect(res.body).toMatchObject(createRes.body);
-  //   });
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject(createRes.body);
+    });
 
-  //   it("should return 404 if paper is not found", async () => {
-  //     const res = await request(app).get("/api/papers/99999");
+    it("should return 404 if paper is not found", async () => {
+      const res = await request(app).get("/api/papers/99999");
 
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.error).toBe("Paper not found");
-  //   });
-  // });
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe("Paper not found");
+    });
+  });
 
   // // PUT /api/papers/:id
   // describe("PUT /api/papers/:id", () => {
