@@ -57,26 +57,6 @@ const dbOperations = {
   getAllPapers: async (filters = {}) => {
     // Your implementation here
     // Remember to handle filters (year, published_in)
-    // Hint:
-    // 1. Start with a basic SELECT query
-    // 2. Add WHERE clauses based on filters:
-    //    - If filters.year exists, add "year = ?"
-    //    - If filters.published_in exists, add "published_in LIKE ?"
-    // 3. Use an array to store query parameters
-    // Example structure:
-    // let query = "SELECT * FROM papers";
-    // const params = [];
-    // if (filters.year) {
-    //   query += " WHERE year = ?";
-    //   params.push(filters.year);
-    // }
-    // ...
-    // const result = await new Promise((resolve, reject) => {
-    //   db.all(query, params, (err, rows) => {
-    //     if (err) reject(err);
-    //     else resolve(rows);
-    //   });
-    // });
     try {
       let query = "SELECT * FROM papers WHERE 1=1";
       const params = [];
@@ -92,16 +72,16 @@ const dbOperations = {
         params.push(`%${filters.published_in}%`);
       }
 
-      // Pagination
       query += " LIMIT ? OFFSET ?";
       params.push(filters.limit, filters.offset);
 
-      return await new Promise((resolve, reject) => {
+      const result = await new Promise((resolve, reject) => {
         db.all(query, params, (err, rows) => {
           if (err) reject(err);
           else resolve(rows);
         });
       });
+      return result;
     } catch (error) {
       throw error;
     }
