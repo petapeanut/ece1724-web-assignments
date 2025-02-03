@@ -145,6 +145,21 @@ const dbOperations = {
 
   deletePaper: async (id) => {
     // Your implementation here
+    try {
+      await new Promise((resolve, reject) => {
+        db.run(`DELETE FROM papers WHERE id = ?`,
+          [id],
+          function (err) {
+          if (err)
+            reject(err);
+          else
+            resolve(this.changes);
+        }
+      );
+    });
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

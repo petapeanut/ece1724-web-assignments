@@ -142,25 +142,25 @@ describe("Paper Management API Tests", () => {
     });
   });
 
-  // // DELETE /api/papers/:id
-  // describe("DELETE /api/papers/:id", () => {
-  //   it("should delete a paper by ID", async () => {
-  //     const createRes = await request(app)
-  //       .post("/api/papers")
-  //       .send(samplePaper);
-  //     const res = await request(app).delete(`/api/papers/${createRes.body.id}`);
+  // DELETE /api/papers/:id
+  describe("DELETE /api/papers/:id", () => {
+    it("should delete a paper by ID", async () => {
+      const createRes = await request(app)
+        .post("/api/papers")
+        .send(samplePaper);
+      const res = await request(app).delete(`/api/papers/${createRes.body.id}`);
 
-  //     expect(res.status).toBe(204);
+      expect(res.status).toBe(204);
 
-  //     const getRes = await request(app).get(`/api/papers/${createRes.body.id}`);
-  //     expect(getRes.status).toBe(404);
-  //   });
+      const getRes = await request(app).get(`/api/papers/${createRes.body.id}`);
+      expect(getRes.status).toBe(404);
+    });
 
-  //   it("should return 404 if paper is not found", async () => {
-  //     const res = await request(app).delete("/api/papers/99999");
+    it("should return 404 if paper is not found", async () => {
+      const res = await request(app).delete("/api/papers/99999");
 
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.error).toBe("Paper not found");
-  //   });
-  // });
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe("Paper not found");
+    });
+  });
 });

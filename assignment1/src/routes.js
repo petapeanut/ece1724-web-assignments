@@ -110,6 +110,17 @@ router.put("/papers/:id", async (req, res, next) => {
 router.delete("/papers/:id", async (req, res, next) => {
   try {
     // Your implementation here
+    validateId(req, res, async () => {
+      const oldPaper = await db.getPaperById(req.id);
+
+      if (!oldPaper) {
+        return res.status(404).json({ error: "Paper not found" });
+      }
+
+      await db.deletePaper(req.id);
+      res.status(204).end();
+    });
+
   } catch (error) {
     next(error);
   }
